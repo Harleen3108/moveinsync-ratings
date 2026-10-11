@@ -146,7 +146,6 @@ with tab1:
             else:
                 flagged.append(chk)
     with st.container(border=True):
-        st.markdown("### The short answer")
         st.markdown(
             f"- **Rating:** {mean:.2f} from {total:,} ratings ({(hist[4] + hist[5]) / total * 100:.1f}% are 4-5 stars; "
             f"only {(hist[1] + hist[2]) / total * 100:.1f}% are 1-2 stars).\n"
