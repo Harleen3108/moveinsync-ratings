@@ -1,5 +1,5 @@
 check,level,detail,n
-freshness,OK,newest review 2026-10-09 (1 days old),15000
+freshness,OK,newest review 2026-10-09 (2 days old),15000
 1-star share,OK,"27.0% in the last 28 days (n=237) vs 25.7% in the previous 90 (n=766); diff +1.3 pts, p=0.693",237
 theme CRASH,WATCH,"App won't open / crashes / stuck / blank: 13.1% of recent 1-2 star reviews vs 5.1% before (+7.9 pts, p=0.0023). Owner: App (Mobile)",130
 versions,OK,no app version with enough reviews is clearly worse than the rest,210
