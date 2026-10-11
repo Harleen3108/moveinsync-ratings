@@ -1,0 +1,17 @@
+code,theme,matched_by_rule,round,checked_n,correct,precision,prec_lo,prec_hi,adjusted,adjusted_lo,adjusted_hi
+SLOW,app_slow_bugs,913,2,8,6,0.75,0.41,0.93,685,374,848
+BOOK,booking_flow,730,1,8,7,0.88,0.53,0.98,639,386,714
+TRK,tracking_eta,574,2,8,7,0.88,0.53,0.98,502,304,561
+CRASH,app_crash_open,440,2,8,8,1.0,0.68,1.0,440,297,440
+LOG,login_auth,463,1,8,6,0.75,0.41,0.93,347,189,430
+UI,ui_ux,292,2,8,7,0.88,0.53,0.98,256,154,285
+OTP,otp,221,1,8,8,1.0,0.68,1.0,221,149,221
+SUP,support_helpdesk,244,2,8,6,0.75,0.41,0.93,183,100,227
+OPS,service_delay_ops,295,3,8,4,0.5,0.22,0.78,148,63,232
+NOTIF,notifications,130,1,8,8,1.0,0.68,1.0,130,88,130
+DCON,driver_contact,126,2,8,8,1.0,0.68,1.0,126,85,126
+BOARD,boarding_verification,86,1,8,6,0.75,0.41,0.93,64,35,80
+RATE,rating_feedback,64,2,8,8,1.0,0.68,1.0,64,43,64
+SAFE,safety_sos,38,2,8,8,1.0,0.68,1.0,38,26,38
+POL,employer_policy,59,3,8,5,0.62,0.31,0.86,37,18,51
+DBEH,driver_behaviour,35,1,8,8,1.0,0.68,1.0,35,24,35

@@ -1,0 +1,35 @@
+{
+  "unbiased_n": 15000,
+  "first_review": "2019-11-21",
+  "last_review": "2026-10-09",
+  "recent_vs_previous_90d": {
+    "recent_n": 721,
+    "recent_1star_pct": 25.0,
+    "previous_n": 819,
+    "previous_1star_pct": 24.9,
+    "diff_pct_points": 0.1,
+    "p_value": 0.979
+  },
+  "versions_with_enough_n": 25,
+  "top_reply_openers": {
+    "Thank you very much for your 5-star review!": 738,
+    "Thank you very much for your 5-star review!!!": 649,
+    "Thanks a lot for your rating and safe rides :)": 405
+  },
+  "reply_rate_negative_pct_all_years": 48.5,
+  "reply_rate_1_2_star_by_year_pct": {
+    "2019": 66.1,
+    "2020": 62.2,
+    "2021": 89.0,
+    "2022": 76.1,
+    "2023": 96.9,
+    "2024": 37.7,
+    "2025": 6.9,
+    "2026": 1.1
+  },
+  "theme_window_n": {
+    "recent": 424,
+    "previous": 346
+  },
+  "mentions_update_pct_neg": 11.2
+}

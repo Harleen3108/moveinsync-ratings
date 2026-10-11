@@ -1,0 +1,29 @@
+app_id: com.moveinsync.ets
+country: in
+lang: en
+batch_size: 200
+sleep_seconds: 1.0
+retries: 3
+stale_after_days: 7
+refresh_max_reviews: 2000     # weekly --refresh pull of the newest reviews (about 8 months)
+
+# thresholds used by src/monitor.py (all are judgement calls; change and re-run)
+monitor:
+  recent_days: 28             # window compared with the baseline for the 1-star share
+  baseline_days: 90
+  min_recent_n: 100           # fewer reviews than this -> the comparison is reported as 'not enough data'
+  theme_recent_days: 56
+  theme_baseline_days: 180
+  min_theme_recent_n: 60
+  theme_min_diff_pts: 5       # a theme must move by at least this many points ...
+  theme_p_value: 0.01         # ... and be significant at this level to be flagged
+  version_min_n: 40           # reviews needed for an app version to be checked
+  reply_rate_floor_pct: 50    # alert if fewer than this % of recent 1-2 star reviews got a reply
+  reply_grace_days: 3         # ignore the newest days; replies take about a day (median 0.8)
+
+# newest_all gives the unbiased mix (use for rating share/trend).
+# The 1-star and 2-star jobs deliberately oversample complaints (use for themes only).
+jobs:
+  - {name: newest_all,  score: null, max_reviews: 15000}
+  - {name: newest_1star, score: 1,   max_reviews: 5000}
+  - {name: newest_2star, score: 2,   max_reviews: 3000}

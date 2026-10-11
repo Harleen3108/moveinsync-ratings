@@ -1,0 +1,151 @@
+# Inputs for prioritize.py.
+# OBSERVED  = measured from data (rating histogram below, collected from the Play Store listing on 10 Oct 2026).
+# ASSUMPTION = analyst judgement. Nothing below the 'themes' key is measured. Change a value and re-run
+#              to see how the ranking moves (prioritize.py also tests the ranking against random changes).
+#
+# fixability (0-1): my guess of the chance that an APP/PRODUCT change (not operations, not an
+#                   employer's configuration) can remove most of the complaint. NOT a root-cause claim.
+# effort     (1-5): rough engineering size. 1 = days, 2 = ~1 sprint, 3 = 1-2 sprints,
+#                   4 = a quarter, 5 = cross-team / vendor programme.
+# Severity (1-3) lives in themes.yaml.
+
+rating_histogram:            # OBSERVED, Play Store listing for com.moveinsync.ets, collected 10 Oct 2026
+  1: 7336
+  2: 837
+  3: 1231
+  4: 7294
+  5: 98151
+
+scenarios:                   # ASSUMPTIONS used for the impact model (see prioritize.py)
+  effectiveness: [0.2, 0.4, 0.6]   # share of users with the problem who stop giving 1-2 stars after the fix
+  new_score: [3.0, 4.0, 5.0]       # what those users would rate instead
+
+themes:
+  app_slow_bugs:
+    fixability: 0.6
+    effort: 4
+    fix: "Add client performance telemetry (cold start, screen-load p95, API error rate by app version / OS / device); fix the top 3 slowest screens and top error codes first."
+    team: "Mobile + Backend"
+    metric: "p95 screen-load time; API error rate; share of sessions with an error"
+    validate: "Staged rollout (10% -> 50% -> 100%) with before/after telemetry; track the 1-2 star share of reviews mentioning slow/bugs."
+    evidence_needed: "Play Console vitals + client telemetry by device/OS/version; backend latency logs."
+  booking_flow:
+    fixability: 0.7
+    effort: 3
+    fix: "Make booking state unambiguous (AM/PM or 24h, confirmed vs wait-list vs cancelled); fix edit/cancel paths; show the cut-off rule before the user commits."
+    team: "Product + Mobile"
+    metric: "Booking completion rate; cancel-success rate; support tickets about booking per 1,000 trips"
+    validate: "Funnel analytics (open -> select -> confirm -> success); compare before/after in a staged rollout."
+    evidence_needed: "Booking funnel drop-off and API failure logs; ticket categories."
+  tracking_eta:
+    fixability: 0.6
+    effort: 4
+    fix: "Show 'last updated' time on the cab marker; fall back to schedule-based ETA when GPS is stale; audit the vendor GPS ping interval."
+    team: "Mobile + Maps/Telematics + vendor GPS"
+    metric: "GPS staleness (median / p95 age of last ping); ETA error in minutes"
+    validate: "Compare predicted vs actual arrival for a sample of trips; track tracking-related review share."
+    evidence_needed: "GPS ping logs per vehicle/vendor; ETA predicted vs actual."
+  login_auth:
+    fixability: 0.8
+    effort: 3
+    fix: "Reduce forced re-authentication (longer session, silent token refresh); keep users logged in across app restarts; clearer errors for 'user not found'."
+    team: "Mobile + Auth"
+    metric: "Forced-logout rate per active user per week; login success rate"
+    validate: "Auth logs before/after; track login-related review share."
+    evidence_needed: "Token expiry and refresh logs; SSO failure reasons; share of 'user not in system' (an employer-onboarding issue)."
+  app_crash_open:
+    fixability: 0.9
+    effort: 3
+    fix: "Triage Play Console / Crashlytics crashes by device, OS and version; check the 'cannot be used on a rooted device' block for false positives; fix the top crash clusters."
+    team: "Mobile"
+    metric: "Crash-free sessions (target >= 99.5%); ANR rate; app-open failure rate"
+    validate: "Play Vitals before/after each release; staged rollout."
+    evidence_needed: "Crash clusters from Play Console; root-detection logs."
+  otp:
+    fixability: 0.8
+    effort: 3
+    fix: "Add SMS auto-read (SMS Retriever), resend with cooldown, and a voice or in-app fallback; monitor delivery by operator."
+    team: "Mobile + SMS/OTP vendor"
+    metric: "OTP delivery success rate; median time-to-verify; OTP resend rate"
+    validate: "Vendor delivery reports by operator; before/after in staged rollout."
+    evidence_needed: "OTP send/deliver/verify logs and the SMS vendor's delivery reports."
+  ui_ux:
+    fixability: 0.7
+    effort: 3
+    fix: "Bring back the information users say disappeared (pickup time, co-passengers); test any redesign with a small user group before release."
+    team: "Product + Design"
+    metric: "Task success in usability tests; UI-related review share"
+    validate: "5-8 user tests with employees; compare review share after release."
+    evidence_needed: "Screen analytics and session recordings; usability tests."
+  support_helpdesk:
+    fixability: 0.3
+    effort: 3
+    fix: "Show a working helpdesk/transport-desk contact and a ticket status inside the app; set a response-time target."
+    team: "Support + Operations"
+    metric: "First-response time; ticket resolution time; tickets raised in-app"
+    validate: "Support dashboard before/after."
+    evidence_needed: "Ticket volumes, response times, who handles escalations."
+  notifications:
+    fixability: 0.9
+    effort: 2
+    fix: "Audit notification triggers (remove test messages, fix wrong-time messages); give users control of reminders."
+    team: "Mobile + Product"
+    metric: "Notification delivery rate; share of notifications sent at the wrong time"
+    validate: "Push delivery logs vs trip events."
+    evidence_needed: "Push send/delivery logs."
+  driver_contact:
+    fixability: 0.8
+    effort: 2
+    fix: "Make in-app calling reliable (masked numbers with a fallback number); show the driver's number and cab details clearly."
+    team: "Mobile + Telephony vendor"
+    metric: "Call connect rate; calls per trip that fail"
+    validate: "Telephony vendor logs."
+    evidence_needed: "Call logs by vendor and error type; check if employer policy disables calling."
+  boarding_verification:
+    fixability: 0.7
+    effort: 3
+    fix: "Fix QR/check-in failures and the 'face mask' / vehicle-verification steps; allow a safe manual fallback."
+    team: "Mobile + Product (safety)"
+    metric: "Check-in success rate; share of trips marked no-show after a failed check-in"
+    validate: "Check-in logs; no-show reasons."
+    evidence_needed: "Check-in error logs."
+  rating_feedback:
+    fixability: 0.95
+    effort: 1
+    fix: "Make the post-trip rating and feedback screen skippable and non-blocking."
+    team: "Product + Mobile"
+    metric: "Rating prompt skip rate; reviews mentioning forced rating"
+    validate: "Release note + review share."
+    evidence_needed: "None needed; it is a product decision."
+  employer_policy:
+    fixability: 0.3
+    effort: 2
+    fix: "Show the employer's cancel/no-show rule in the app before booking and when cancelling; give customer-success a way to review the rule settings per employer."
+    team: "Customer Success + Product"
+    metric: "No-show disputes; cancellation-rule complaints per 1,000 trips"
+    validate: "Ticket categories."
+    evidence_needed: "Per-employer rule configuration vs complaint volume."
+  safety_sos:
+    fixability: 0.5
+    effort: 2
+    fix: "Make the SOS button reachable without re-login and without hunting through menus."
+    team: "Safety + Mobile"
+    metric: "Time to trigger SOS; SOS success rate"
+    validate: "Safety drills and logs."
+    evidence_needed: "SOS usage logs."
+  service_delay_ops:
+    fixability: 0.2
+    effort: 5
+    fix: "Operations programme: vendor on-time dashboards, route-clubbing review, late-pickup escalation. Mostly not an app fix."
+    team: "Operations + Vendor management"
+    metric: "On-time pickup rate; late-cab complaints per 1,000 trips"
+    validate: "Operations dashboard."
+    evidence_needed: "Trip logs with scheduled vs actual pickup times by vendor."
+  driver_behaviour:
+    fixability: 0.1
+    effort: 4
+    fix: "Vendor scorecards and driver conduct escalation. Not an app fix."
+    team: "Operations + Vendor management"
+    metric: "Driver conduct complaints per 1,000 trips"
+    validate: "Complaint log."
+    evidence_needed: "Complaint logs by vendor."

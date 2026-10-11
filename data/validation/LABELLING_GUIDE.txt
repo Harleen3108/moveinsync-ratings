@@ -1,0 +1,34 @@
+HOW TO LABEL  (about 60-90 minutes; do it in one or two sittings)
+
+Open data/validation/manual_labels.csv in Excel. For EACH row, read the review and type, in the
+'true_codes' column, every theme that the review REALLY talks about. Separate several codes
+with a vertical bar, e.g.  LOG|OTP   If it contains no specific, actionable problem, type NONE.
+Do not look at sample_key.csv until you are finished (it holds the rules' answers).
+
+Judge what the user actually says, not what you think caused it.
+Examples:  "app logs me out every day"            -> LOG
+           "cab was 40 min late"                  -> OPS
+           "worst app ever"                       -> NONE
+           "crashes and helpdesk is rude"         -> CRASH|SUP
+
+CODES
+  LOG    Login / session / sign-out
+  OTP    OTP not received / not working
+  CRASH  App won't open / crashes / stuck / blank
+  SLOW   App slow / buggy / "not working" (unspecified)
+  TRK    Live tracking / GPS / ETA wrong
+  BOOK   Booking / cancel / edit / wait-list flow
+  OPS    Cab late / not assigned / route problems
+  BOARD  Check-in / QR scan / face-mask / vehicle verification
+  NOTIF  Notifications / reminders / pop-ups
+  UI     Confusing UI / redesign / usability
+  DCON   Cannot call / contact the driver
+  DBEH   Driver rude / refuses / unsafe driving
+  SAFE   Safety / SOS / emergency
+  SUP    Helpdesk / support / no response
+  RATE   Forced / blocked trip rating or survey
+  POL    Employer rules - cancel cut-off / no-show penalty / booking window
+  NONE   no specific actionable problem (pure abuse / praise-like / unclear)
+
+Rows: 167  (8 per theme to test precision + 40 unmatched to test misses)
+Save the file as CSV (keep the same name) when done, then run:  python src/validate.py

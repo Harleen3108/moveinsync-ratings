@@ -1,0 +1,67 @@
+# Weekly refresh of the Play Store analysis. Also runnable by hand (Actions tab -> Run workflow).
+# STATUS: written but NOT yet proven. Whether Google serves reviews to GitHub's servers is unverified;
+# the first run decides. If collect fails the job goes red on purpose (nothing stale is reported as current).
+name: refresh-ratings
+
+on:
+  schedule:
+    - cron: "30 3 * * 1"      # Mondays 03:30 UTC (09:00 IST). Change to "30 3 * * *" for daily.
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ratings
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect newest reviews   # fails loudly if the Play Store refuses or returns nothing
+        run: python src/collect.py --refresh
+
+      - name: Clean, classify, analyse, rank
+        run: |
+          python src/clean.py
+          python src/classify.py
+          python src/analyze.py
+          python src/prioritize.py
+          python src/deep_dive.py
+
+      - name: Monitor
+        id: monitor
+        run: |
+          set +e
+          python src/monitor.py
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Commit refreshed outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports data/processed
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Weekly refresh of ratings analysis [skip ci]"
+            git push
+          fi
+
+      - name: Fail the run if the monitor says ALERT or STALE
+        if: steps.monitor.outputs.code != '0'
+        run: |
+          echo "Monitor exit code ${{ steps.monitor.outputs.code }} (1 = ALERT, 2 = STALE data). See reports/monitor_report.md"
+          exit 1

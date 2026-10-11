@@ -1,0 +1,274 @@
+# Theme taxonomy v4 (v3 measured on a 167-row labelled sample; v4 = rule fixes made from its errors)
+# (history: v2 -- drafted from reading ~110 real 1-2 star reviews (Oct 2026), then
+# tightened after inspecting rule matches (v1 -> v2 fixes: word boundaries on 'rate',
+# 'women' no longer = safety, driver-behaviour now needs the word driver/chauffeur nearby,
+# 'app not working' split into hard failures vs slow/buggy, boarding-verification added).
+#
+# Every theme = a journey stage + a likely owning team + keyword rules (case-insensitive regex).
+# 'severity' (1-3) = how badly the issue blocks the employee's core job (book -> track -> board).
+# It is an ANALYST JUDGEMENT / ASSUMPTION, not measured. Change it and re-run to see the effect.
+# 'owner' is the team that would normally act first; it is NOT proof of root cause.
+# Keep patterns simple so they can be explained in an interview. English + a few Hinglish words.
+
+themes:
+  - id: login_auth
+    code: LOG
+    label: Login / session / sign-out
+    stage: Access
+    owner: App (Mobile + Auth)
+    severity: 3
+    patterns:
+      - '\blog(ged|ging)?[ -]?(in|out|on)\b'
+      - '\bsign(ed|ing)?[ -]?(in|out|up)\b'
+      - '\bre-?log'
+      - '\bsso\b'
+      - 'validate (my )?identity|verify (my )?identity|\bidentity\b'
+      - 'authenticat'
+      - 'password'
+      - 'company (mail|email|id)'
+      - '\bsession'
+      - 'clear(ing)? (the )?(app ?)?(data|cache)'
+      - 'user not (present|found)|not registered|register'
+
+  - id: otp
+    code: OTP
+    label: OTP not received / not working
+    stage: Access + Boarding
+    owner: App + SMS/OTP service
+    severity: 3
+    patterns:
+      - '\botp\b'
+      - 'one.?time.?pass'
+
+  - id: app_crash_open
+    code: CRASH
+    label: App won't open / crashes / stuck / blank
+    stage: All stages
+    owner: App (Mobile)
+    severity: 3
+    patterns:
+      - 'crash'
+      - 'force ?clos'
+      - 'keeps? (stopping|closing|crashing)'
+      - '(not|n.t) (opening|launching)'
+      - 'won.?t (open|launch|start)'
+      - '(unable|not able) to (open|access)'
+      - '(can.?t|cannot) (open|access)'
+      - '\bstuck\b'
+      - '\bhang(s|ing)?\b|freez'
+      - 'blank|white screen|splash'
+      - 'not installed'
+      - 'uninstall|reinstall'
+      - 'khul nahi|nahi khul'
+      - '(doesn.?t|does not|not|never) open'
+      - 'compatib'
+      - '(unable|not able|can.?t|cannot) (to )?install|install(ing|ation)? (issue|problem|fail)'
+
+  - id: app_slow_bugs
+    code: SLOW
+    label: App slow / buggy / "not working" (unspecified)
+    stage: All stages
+    owner: App (Mobile)
+    severity: 2
+    patterns:
+      - '\bslow|takes? (a )?(very |too |so )?(long|much|more than|forever)|\blag'
+      - '\bloading\b'
+      - 'performance'
+      - '\bbugs?\b|buggy|glitch'
+      - '\berrors?\b'
+      - 'not (working|responding)'
+      - 'doesn.?t work|does not work|never works?|stop(s|ped)? working|stops every'
+      - 'not (properly|correctly)'
+      - 'technical (issue|problem)|system issue|\bserver'
+      - 'no internet|internet connection'
+      - 'chalta nahi|nahi chal'
+      - 'reload|refresh(es|ing)?\b'
+      - 'too much time'
+
+  - id: tracking_eta
+    code: TRK
+    label: Live tracking / GPS / ETA wrong
+    stage: Pre-pickup + Ride
+    owner: App (Maps/Telematics) + vendor GPS
+    severity: 2
+    patterns:
+      - '\btrack(ing|er)?\b'
+      - '\bgps\b'
+      - 'live location'
+      - '(real|actual|exact|current|correct|accurate).{0,8}location'
+      - '(cabs?|vehicles?|bus(es)?|drivers?|shuttles?)[ ]?.{0,3}(location|icon|position)'
+      - 'location of (the )?(cab|vehicle|bus|driver|shuttle)'
+      - 'location (is )?(wrong|incorrect|not (accurate|updat|show|correct))'
+      - '\bmaps?\b|\bzoom'
+      - '\beta\b'
+      - 'whereabouts|real.?time'
+      - 'crossed (the )?stop'
+      - 'proper location|live time|cab arrival|arrival time'
+
+  - id: booking_flow
+    code: BOOK
+    label: Booking / cancel / edit / wait-list flow
+    stage: Booking
+    owner: Product + App
+    severity: 3
+    patterns:
+      - '\bbook(ing|ings|ed|s)?\b'
+      - '\bcancel'
+      - 're-?schedul|\bschedul(e|ed|ing)'
+      - '\bwait.?list'
+      - '\bslots?\b|\bseats?\b'
+      - '\broster'
+      - '\bedit|modify'
+      - 'no.?show'
+      - 'ad.?hoc'
+      - 'boarding point|pick.?up point|drop point|nodal|cut.?off'
+      - 'rebook'
+
+  - id: service_delay_ops
+    code: OPS
+    label: Cab late / not assigned / route problems
+    stage: Pickup + Ride
+    owner: Operations / Transport desk / Vendor (+ routing)
+    severity: 2
+    patterns:
+      - '\blate\b'
+      - '\bdelay(s|ed)?\b'
+      - 'wait(ed|ing)? (for )?(the |my |a )?(cab|car|bus|vehicle|driver|pick)|wait(ed|ing)? (more than|over|since|too long|\d)'
+      - 'did.?n.?t (come|arrive|turn|show|pick|reach)|not (come|arrive|reach|turn)'
+      - 'not (assign|alloc)|no (cab|vehicle|bus) (assign|alloc|avail)'
+      - 'assign(ed|ing|ment)?|allot'
+      - 'no (cab|vehicle|bus) '
+      - '\bmissed (the |my |a |our )?(cab|bus|car|vehicle|shuttle|pick|shift|trip)'
+      - 'not on time|never on time|(wrong|late|changed?) pick.?up time'
+      - 'clubb?ing'
+      - '\broute|\bpool(ing)?\b|detour'
+      - 'weekend'
+
+  - id: boarding_verification
+    code: BOARD
+    label: Check-in / QR scan / face-mask / vehicle verification
+    stage: Boarding
+    owner: App + Product (safety checks)
+    severity: 3
+    patterns:
+      - 'check.?in|check.?out'
+      - '\bqr\b|\bscan'
+      - '\bface\b|\bmask\b'
+      - 'driver verif|vehicle verif|verif(y|ied|ication) (of )?(the )?(driver|vehicle|cab|trip)'
+      - '(car|cab|vehicle) (number|plate|photo)'
+
+  - id: notifications
+    code: NOTIF
+    label: Notifications / reminders / pop-ups
+    stage: Pre-pickup
+    owner: App + Product
+    severity: 2
+    patterns:
+      - 'notif'
+      - '\balert'
+      - 'remind'
+      - 'pop.?up'
+
+  - id: ui_ux
+    code: UI
+    label: Confusing UI / redesign / usability
+    stage: All stages
+    owner: Product + Design
+    severity: 1
+    patterns:
+      - 'user.?friendly|\bui\b|\bux\b|interface'
+      - '(bad|poor|worst|new|terrible|horrible|confusing|better|old) design|redesign'
+      - 'confus|complicated|cluttered'
+      - 'new (version|look|design|layout|interface)'
+      - 'co-?passengers?|fellow passengers?'
+      - '\blayout|\bfont|colou?r|\bbutton|\btab\b'
+      - 'agreement page|declaration|auto.?correct|auto.?complete|intuitive'
+
+  - id: driver_contact
+    code: DCON
+    label: Cannot call / contact the driver
+    stage: Pre-pickup + Boarding
+    owner: App + Product
+    severity: 2
+    patterns:
+      - '(call|contact|reach|phone|talk).{0,15}(driver|chauffeur)'
+      - '(driver|chauffeur).{0,15}(number|phone)'
+      - 'call (button|option)'
+      - 'call(ing|s)? (is |are |was )?(not|never) (working|connect)'
+      - 'call.{0,20}(connect|disconnect)'
+      - 'number (you|they) (provided|gave).{0,30}(not|never)'
+
+  - id: driver_behaviour
+    code: DBEH
+    label: Driver rude / refuses / unsafe driving
+    stage: Ride
+    owner: Operations / Vendor
+    severity: 3
+    patterns:
+      - '(driver|chauffeur|cabbie).{0,60}(rude|abus|misbehav|arrogan|attitude|unprofessional|drunk|rash|reckless|speed|refus|deny|denied|behaviou?r)'
+      - '(rude|abus|misbehav|arrogan|unprofessional|drunk|reckless|refus|deny|denied).{0,60}(driver|chauffeur|cabbie)'
+      - 'drunk|\brash\b|reckless|over.?speed|speeding'
+
+  - id: safety_sos
+    code: SAFE
+    label: Safety / SOS / emergency
+    stage: Ride
+    owner: Safety + Operations (+ App for SOS)
+    severity: 3
+    patterns:
+      - '\bsos\b'
+      - 'safety|unsafe'
+      - 'harass|panic|emergency (sos|button)'
+      - '(women|woman|female|ladies|lady|girl)s?.{0,25}(safe|secur|night|alone)'
+      - '(safe|secur).{0,25}(women|woman|female|ladies|lady|girl)'
+      - 'escort|accident'
+
+  - id: support_helpdesk
+    code: SUP
+    label: Helpdesk / support / no response
+    stage: Issue raising
+    owner: Support + Operations
+    severity: 2
+    patterns:
+      - 'help ?desk'
+      - 'customer (care|support|service)|\bsupport\b'
+      - 'call ?cent(er|re)|command cent(er|re)|control room'
+      - 'no one help|nobody help|not helpful'
+      - 'no (one )?(response|reply)|not respond|nobody (respond|reply|pick|answer)|unresponsive'
+      - 'complain|escalat|grievance|\bticket'
+      - 'raise (a |an |any |my )?(concern|issue|complaint|request|ticket)'
+
+  - id: rating_feedback
+    code: RATE
+    label: Forced / blocked trip rating or survey
+    stage: Post-trip
+    owner: Product
+    severity: 1
+    patterns:
+      - '(forc|compel|mandator|compuls).{0,40}(\brat(e|ed|ing)|feedback|survey)'
+      - '(\brat(e|ed|ing)s?\b|feedback|survey).{0,40}(forc|compel|mandator|compuls|lock|unable|can.?t|cannot|not able|submit|skip)'
+      - '\bsurvey'
+      - 'feed ?back (option|screen|after|for)|asking for (a )?feed'
+      - 'unable to rate|cannot rate|can.?t rate'
+
+  - id: employer_policy
+    code: POL
+    label: Employer rules - cancel cut-off / no-show penalty / booking window
+    stage: Booking + Cancellation
+    owner: Employer transport admin + Customer success (configuration, communication)
+    severity: 2
+    patterns:
+      - '\bcut.?off'
+      - '(cancel|cancellation).{0,40}(hours?|hrs?|window|time ?limit|slab|deadline|period|before)'
+      - '\bpenalt|\bfines\b|\bfined\b|deduct'
+      - '\bpolic(y|ies)\b'
+      - '(book|booking).{0,30}(\d+ ?(hours?|hrs|days?) (before|prior|in advance|ahead)|in advance|too early)'
+      - 'no.?show.{0,40}(mark|penalt|because|even|without|wrong|unfair)'
+      - '(my|our) (company|organi[sz]ation|employer).{0,25}(rule|polic|decid|restrict|not allow)|company (rule|polic|decid)'
+
+# Not themes. Used to explain reviews that match no theme.
+generic_negative_patterns:
+  - 'worst|waste|useless|pathetic|third class|3rd class|horrible|terrible|rubbish|trash'
+  - '\bpoor\b|\bbad\b|not good|disappoint|\bhate\b|irritat|frustrat|nonsense'
+  - 'bekar|bakwas|ghatiya|kharab'
+update_mention_pattern: 'updat|upgrad|new version'
