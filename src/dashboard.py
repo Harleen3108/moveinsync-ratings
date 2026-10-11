@@ -378,6 +378,24 @@ with tab3:
     need(prio, "reports/priority_table.csv")
     st.info("The score ranks what to build. Anything the weekly monitor flags (see Overview) is also worth a quick "
             "check first, because checking is cheaper than building.")
+    with st.container(border=True):
+        st.markdown("#### Rating lever (not scored): ask satisfied users to rate")
+        st.markdown(
+            "Most happy commuters never open the Play Store, so written reviews lean negative (1 star is 6.4% of ratings "
+            "but about 27% of written reviews). Use Google's In-App Review API to show the rating card after a completed, "
+            "on-time trip, never after a failed booking, a late cab, a crash or a login error.")
+        st.markdown(
+            "**Google's limits:** a time-bound quota that Google does not publish and can change, so the card may not "
+            "appear; the app cannot force it; no questions about the user's opinion before the card; no reward for rating; "
+            "no button that triggers it.")
+        st.markdown("**Owner:** Mobile + Product (trip events from Backend). **Effort:** about one sprint (analyst judgement).")
+        st.markdown("**Metric to watch:** new ratings per week and the average of new ratings (Play Console), compared "
+                    "with the previous 4 weeks.")
+        st.markdown("**Day 1:** check whether the app already shows any rating prompt and what the post-trip rating screen "
+                    "does; define the trigger; add a feature flag; log each prompt request with the app version; "
+                    "export the 4-week baseline of new ratings.")
+        st.caption("Not scored because the score is built from complaint reach. Its size is unknown; Google weights the "
+                   "public rating towards recent ratings but does not publish how.")
     for _, r in prio.iterrows():
         with st.container(border=True):
             top = "  |  Top 3 by score" if int(r["rank"]) <= 3 else ""
