@@ -1,0 +1,4 @@
+# Open the dashboard in light mode by default. Viewers can still switch themes
+# from the app menu (three dots, top right) -> Settings.
+[theme]
+base = "light"
