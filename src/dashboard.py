@@ -89,8 +89,11 @@ st.sidebar.title("Review Intelligence")
 st.sidebar.caption("com.moveinsync.ets (employee commute app)")
 st.sidebar.markdown(f"**Newest review in data:** {newest.date()}")
 st.sidebar.markdown(f"**Sample used for trends:** {len(unb):,} newest reviews, all star ratings")
-st.sidebar.info("Written reviews are not ratings: 1 star is 6.4% of ratings but about 27% of written reviews. "
-                "Use this for topics and trends, not as the app's rating.")
+_h = {int(k): v for k, v in prio_cfg["rating_histogram"].items()}
+_mean = sum(k * v for k, v in _h.items()) / sum(_h.values())
+st.sidebar.info("People who write reviews are more likely to be unhappy. Use these reviews to see what goes wrong "
+                "and whether it is getting worse. For the app's actual rating, use the "
+                f"{_mean:.2f} from all ratings.")
 st.sidebar.caption("Focus is on low ratings (1-2 stars), where the problems are. Other star ratings are available "
                    "in the Review investigation tab.")
 
@@ -306,15 +309,16 @@ with tab2:
         labels = {r["reviewId"]: f"{r['at'].date()} | {stars_text(r['score'])} | {r['content'][:90]}"
                   for _, r in v.iterrows()}
         ids = list(labels)
+        # one widget identity per filter combination, so a stale selection from another topic can never linger
+        rkey = f"rid|{grp}|{topic}|{pick_year}|{query}"
         st.session_state["_ids"] = ids
-        if st.session_state.get("rid") not in ids:
-            st.session_state.pop("rid", None)
+        st.session_state["_rkey"] = rkey
 
         def _random_pick():
-            st.session_state["rid"] = random.choice(st.session_state["_ids"])
+            st.session_state[st.session_state["_rkey"]] = random.choice(st.session_state["_ids"])
 
         st.button("Show me another example", on_click=_random_pick)
-        rid = st.selectbox("Review", ids, format_func=lambda k: labels[k], key="rid")
+        rid = st.selectbox("Review", ids, format_func=lambda k: labels[k], key=rkey)
         row = v[v["reviewId"] == rid].iloc[0]
 
         left, right = st.columns([1.2, 1])
