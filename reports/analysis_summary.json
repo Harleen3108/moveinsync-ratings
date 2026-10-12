@@ -1,14 +1,14 @@
 {
-  "unbiased_n": 15000,
+  "unbiased_n": 15003,
   "first_review": "2019-11-21",
-  "last_review": "2026-10-09",
+  "last_review": "2026-10-11",
   "recent_vs_previous_90d": {
     "recent_n": 721,
-    "recent_1star_pct": 25.0,
-    "previous_n": 819,
-    "previous_1star_pct": 24.9,
-    "diff_pct_points": 0.1,
-    "p_value": 0.979
+    "recent_1star_pct": 24.7,
+    "previous_n": 808,
+    "previous_1star_pct": 25.4,
+    "diff_pct_points": -0.7,
+    "p_value": 0.758
   },
   "versions_with_enough_n": 25,
   "top_reply_openers": {
@@ -29,7 +29,7 @@
   },
   "theme_window_n": {
     "recent": 424,
-    "previous": 348
+    "previous": 345
   },
   "mentions_update_pct_neg": 11.2
 }
