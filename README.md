@@ -11,6 +11,21 @@ was read from public Play Store listings on 11 Oct 2026.
 on Google Play. Its other listings (Field app, Driver Onboarding, Workplace kiosk) serve admins, drivers and offices and
 have far fewer reviews, so they are not analysed.
 
+**Peer benchmark (read from public Play Store listings on 11 Oct 2026, rounded as Google displays them; peers are
+employee-commute apps found in Play Store searches, not a complete list):**
+
+| App (package) | Rating shown | Ratings or reviews | Last updated |
+| --- | --- | --- | --- |
+| MoveInSync (`com.moveinsync.ets`) | 4.64 (shows 4.6) | 114,849 ratings (10 Oct) | 31 Aug 2026 |
+| Routematic (`com.routematic.employee`) | 4.3 | 34.2K reviews | 3 Aug 2026 |
+| Shuttl (`app.goplus.in.myapplication`) | 3.0 | 45.5K reviews | 26 Apr 2024 |
+| SMT Employee (`in.smarttransport.emp`) | 2.6 | 834 reviews | 29 Aug 2026 |
+| Shuttles by Safetrax (`in.mtap.iincube.safetrax.shuttles`) | 4.7 | 242 reviews | 19 Sep 2024 |
+
+The rating is not low against these peers; the remaining gap is the 7.1% of ratings at 1-2 stars and satisfied users
+who never rate. The report therefore also recommends the fastest lever on the number: asking satisfied users to rate
+with Google's In-App Review API (not scored, because its effect cannot be measured from reviews).
+
 **Live dashboard:** https://moveinsync-ratings-eke9bgfopynnzgijenynmb.streamlit.app/
 
 ![Dashboard overview](docs/screenshots/1-overview.png)
