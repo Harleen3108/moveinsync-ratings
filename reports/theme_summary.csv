@@ -1,12 +1,12 @@
 theme,label,stage,owner,severity,reviews,pct_of_negative,pct_1star_only
-app_slow_bugs,"App slow / buggy / ""not working"" (unspecified)",All stages,App (Mobile),2,913,19.8,18.8
+app_slow_bugs,"App slow / buggy / ""not working"" (unspecified)",All stages,App (Mobile),2,915,19.8,18.8
 booking_flow,Booking / cancel / edit / wait-list flow,Booking,Product + App,3,730,15.8,15.5
 tracking_eta,Live tracking / GPS / ETA wrong,Pre-pickup + Ride,App (Maps/Telematics) + vendor GPS,2,574,12.4,11.5
-login_auth,Login / session / sign-out,Access,App (Mobile + Auth),3,463,10.0,9.9
-app_crash_open,App won't open / crashes / stuck / blank,All stages,App (Mobile),3,440,9.5,9.2
+login_auth,Login / session / sign-out,Access,App (Mobile + Auth),3,462,10.0,9.9
+app_crash_open,App won't open / crashes / stuck / blank,All stages,App (Mobile),3,442,9.5,9.2
 service_delay_ops,Cab late / not assigned / route problems,Pickup + Ride,Operations / Transport desk / Vendor (+ routing),2,295,6.4,6.5
 ui_ux,Confusing UI / redesign / usability,All stages,Product + Design,1,292,6.3,6.1
-support_helpdesk,Helpdesk / support / no response,Issue raising,Support + Operations,2,244,5.3,5.8
+support_helpdesk,Helpdesk / support / no response,Issue raising,Support + Operations,2,246,5.3,5.9
 otp,OTP not received / not working,Access + Boarding,App + SMS/OTP service,3,221,4.8,4.9
 notifications,Notifications / reminders / pop-ups,Pre-pickup,App + Product,2,130,2.8,2.8
 driver_contact,Cannot call / contact the driver,Pre-pickup + Boarding,App + Product,2,126,2.7,2.6
