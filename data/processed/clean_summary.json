@@ -1,31 +1,31 @@
 {
   "rows_raw_files": 23765,
-  "rows_after_dedupe": 16596,
-  "duplicates_removed": 7169,
-  "rows_with_text": 16595,
+  "rows_after_dedupe": 16638,
+  "duplicates_removed": 7127,
+  "rows_with_text": 16637,
   "rows_empty_text": 1,
-  "rows_in_unbiased_sample": 15050,
+  "rows_in_unbiased_sample": 15092,
   "unbiased_window_start": "2019-11-21 21:02:38",
-  "newest_review": "2026-10-17 23:56:07",
+  "newest_review": "2026-10-24 20:57:36",
   "oldest_review": "2014-04-19 09:52:15",
   "newest_age_days": 1,
   "stale": false,
   "unbiased_score_mix_pct": {
-    "1": 26.7,
+    "1": 26.6,
     "2": 4.1,
     "3": 3.7,
     "4": 9.2,
-    "5": 56.3
+    "5": 56.4
   },
-  "reply_rate_pct_all": 48.8,
-  "short_reviews_le3_words_pct": 47.3,
-  "non_latin_text_pct": 4.3,
-  "possible_duplicate_text_rows": 495,
+  "reply_rate_pct_all": 48.7,
+  "short_reviews_le3_words_pct": 47.4,
+  "non_latin_text_pct": 4.2,
+  "possible_duplicate_text_rows": 497,
   "rows_by_star": {
-    "1": 5010,
-    "2": 1165,
+    "1": 5019,
+    "2": 1168,
     "3": 554,
     "4": 1389,
-    "5": 8478
+    "5": 8508
   }
 }

@@ -1,14 +1,14 @@
 {
-  "unbiased_written_reviews": 15049,
-  "n_4_5_star": 9866,
-  "n_1_2_star": 4629,
+  "unbiased_written_reviews": 15091,
+  "n_4_5_star": 9896,
+  "n_1_2_star": 4641,
   "median_words_4_5": 2.0,
   "median_words_1_2": 11.0,
   "pct_4_5_star_3_words_or_fewer": 67.7,
   "crash_reviews_1_2_star": {
     "Aug-Oct 2026": [
-      25,
-      182
+      26,
+      194
     ],
     "Jan-Jul 2026": [
       21,

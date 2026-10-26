@@ -1,14 +1,14 @@
 {
-  "unbiased_n": 15050,
+  "unbiased_n": 15092,
   "first_review": "2019-11-21",
-  "last_review": "2026-10-17",
+  "last_review": "2026-10-24",
   "recent_vs_previous_90d": {
-    "recent_n": 718,
-    "recent_1star_pct": 25.1,
-    "previous_n": 798,
-    "previous_1star_pct": 25.1,
-    "diff_pct_points": 0.0,
-    "p_value": 0.998
+    "recent_n": 709,
+    "recent_1star_pct": 25.8,
+    "previous_n": 781,
+    "previous_1star_pct": 24.2,
+    "diff_pct_points": 1.6,
+    "p_value": 0.473
   },
   "versions_with_enough_n": 25,
   "top_reply_openers": {
@@ -16,7 +16,7 @@
     "Thank you very much for your 5-star review!!!": 649,
     "Thanks a lot for your rating and safe rides :)": 405
   },
-  "reply_rate_negative_pct_all_years": 48.4,
+  "reply_rate_negative_pct_all_years": 48.2,
   "reply_rate_1_2_star_by_year_pct": {
     "2019": 66.1,
     "2020": 62.2,
@@ -28,8 +28,8 @@
     "2026": 1.3
   },
   "theme_window_n": {
-    "recent": 424,
-    "previous": 344
+    "recent": 415,
+    "previous": 352
   },
   "mentions_update_pct_neg": 11.2
 }
